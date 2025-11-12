@@ -23,6 +23,7 @@
     }
     *,*::before,*::after{ box-sizing: border-box; }
     html,body{ height: 100%; }
+    html{ overflow-x: hidden; } /* 兜底避免水平捲動 */
     body{
       margin: 0;
       background: var(--color-bg);
@@ -45,6 +46,9 @@
     img{ max-width: 100%; height: auto; display: block; border-radius: .5rem; }
     a{ color: var(--color-primary); text-decoration: none; }
     a:hover, a:focus-visible{ text-decoration: underline; outline: none; }
+    /* 長字與長網址在小螢幕自動換行，避免撐出水平捲動 */
+    p, a, li, .surface{ overflow-wrap: anywhere; word-break: break-word; }
+
     .section{
       padding: 64px 0;
       border-top: 1px solid var(--color-border);
@@ -76,6 +80,7 @@
       font-weight: 600;
       box-shadow: var(--shadow-1);
       border: 1px solid rgba(0,0,0,.15);
+      white-space: nowrap; /* 行動按鈕保持緊湊 */
     }
     .btn:hover,.btn:focus-visible{ filter: brightness(1.05); text-decoration: none; }
     .grid{ display: grid; gap: 1rem; }
@@ -89,6 +94,7 @@
     /* ================================
        CSS:BASE-END
     ================================= */
+
     /* ================================
        CSS:HERO-START
        與 Hero 區相關：.section-hero、.hero-wrap、.hero-title 等
@@ -166,8 +172,9 @@
        與 Contact 區相關
     ================================= */
     .contact-list{ display: grid; gap: .75rem; }
-    .contact-item{ display: flex; gap: .5rem; align-items: center; }
-    .contact-item .label{ width: 88px; color: var(--color-text-muted); }
+    .contact-item{ display: flex; gap: .5rem; align-items: center; min-width: 0; }
+    .contact-item .label{ width: 88px; color: var(--color-text-muted); flex-shrink: 0; }
+    .contact-list a{ min-width: 0; }
     /* ================================
        CSS:CONTACT-END
     ================================= */
@@ -184,6 +191,7 @@
       }
       .section-about .about-media{ order: initial; }
       .project-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .nav{ flex-wrap: nowrap; }
     }
     @media (min-width: 1024px){
       .hero-title{ font-size: 2.75rem; }
@@ -205,12 +213,14 @@
     .nav{
       display: flex; align-items: center; justify-content: space-between;
       padding: .75rem 0;
+      gap: .5rem;
+      flex-wrap: wrap; /* 小螢幕允許換行，避免撐寬 */
     }
     .brand{
       font-weight: 700; letter-spacing: .02em;
       color: var(--color-text); white-space: nowrap;
     }
-    .nav-links{ display: flex; gap: .75rem; flex-wrap: wrap; }
+    .nav-links{ display: flex; gap: .5rem; flex-wrap: wrap; min-width: 0; }
     .nav-link{
       padding: .5rem .75rem;
       border-radius: .5rem;
